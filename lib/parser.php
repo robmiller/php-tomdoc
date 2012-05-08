@@ -2,6 +2,10 @@
 
 class TomDocParser {
 
+	// Set up some reusable parsing tokens.
+	private $comment = '(\/\/|\#)';
+
+
 	// Public: Instantiates the parser for the given file.
 	//
 	// $file - The fully-qualified path to the file you wish to parse.
@@ -26,7 +30,7 @@ class TomDocParser {
 
 		preg_match_all(
 			'/
-			((^\s*\/\/ .*$\n)+)
+			((^\s*' . $this->comment . ' .*$\n)+)
 			^\s*(\w*\s*)?function
 			/xm',
 			$code,
@@ -107,7 +111,7 @@ class TomDocParser {
 	//
 	// Returns the line without the comments
 	private function strip_comments($line) {
-		return preg_replace('/^\s*\/\/ /', '', $line);
+		return preg_replace('/^\s*' . $this->comment . ' /', '', $line);
 	}
 
 	// Checks whether a line, after having had its comment tag stripped from

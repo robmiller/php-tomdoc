@@ -36,4 +36,3 @@ of your documentation.
 * Parse "example" sections of doc blocks
 * Write command line tool
 * Write output streams: console, HTML, plain-text
-* Cope with `#` comments as well as `//`
