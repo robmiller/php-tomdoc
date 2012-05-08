@@ -1,7 +1,7 @@
 <?php
 
-require_once '../lib/finder.php';
-require_once '../lib/parser.php';
+require_once dirname(__FILE__) . '/../lib/finder.php';
+require_once dirname(__FILE__) . '/../lib/parser.php';
 
 class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 
@@ -14,7 +14,7 @@ class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testFinder() {
-		$finder = new TomDocFinder('../lib/');
+		$finder = new TomDocFinder(dirname(__FILE__) . '/../lib/');
 
 		$files = $finder->find('*.php');
 
@@ -29,7 +29,7 @@ class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 	public function testParse(array $files) {
 		$parser = new TomDocParser($files[0]);
 
-		$blocks = $parser->parse();
+		$blocks = $parser->find_blocks();
 
 		$this->assertNotEmpty($blocks);
 

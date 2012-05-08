@@ -15,22 +15,35 @@ class TomDocParser {
 	//     output() to do something useful with the parsed data, e.g. output
 	//     it to a terminal or write it to a file.
 	public function parse() {
-
+		$blocks = $this->find_blocks();
 	}
 
-	// Private: given PHP code, will extract doc blocks from it.
+	// Public: given PHP code, will extract doc blocks from it.
 	//
 	// Returns an array of strings, each containing the raw source of a block.
-	private function find_blocks() {
+	public function find_blocks() {
+		$code = file_get_contents($this->file);
 
+		preg_match_all(
+			'/
+			((^\s*\/\/ .*$\n)+)
+			^\s*(\w*\s*)?function
+			/xm',
+			$code,
+			$matches
+		);
+
+		$blocks = $matches[1];
+
+		return $blocks;
 	}
 
-	// Private: actually does the nitty-gritty of the parsing, taking a doc
+	// Public: actually does the nitty-gritty of the parsing, taking a doc
 	//     block and returning the various components.
 	//
 	// Returns an object containing all of the possible parsed values, whether
 	//     they exist in the block or not.
-	private function parse_block($block) {
+	public function parse_block($block) {
 
 	}
 
