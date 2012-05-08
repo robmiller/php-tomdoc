@@ -14,11 +14,11 @@ class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testFinder() {
-		$finder = new TomDocFinder(dirname(__FILE__) . '/../lib/');
+		$finder = new TomDocFinder(dirname(__FILE__) . '/test-code/');
 
 		$files = $finder->find('*.php');
 
-		$this->assertCount(2, $finder->files);
+		$this->assertCount(1, $finder->files);
 
 		return $files;
 	}
@@ -38,7 +38,9 @@ class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 
 			$this->assertNotEmpty($elements->description);
 
-			$this->assertNotEmpty($elements->return);
+			$this->assertCount(2, $elements->arguments);
+
+			$this->assertNotEmpty($elements->returns);
 		}
 	}
 
