@@ -60,7 +60,10 @@ class TomDocParser {
 
 		$lines = array_filter($lines, array(&$this, 'filter_empty'));
 
+		$line_number = 0;
 		foreach ( (array) $lines as $line ) {
+			$line_number++;
+
 			$is_continuation = $this->is_continuation($line);
 			if ( $is_continuation ) {
 				if ( $thing == 'argument' ) {
@@ -74,7 +77,7 @@ class TomDocParser {
 
 			$thing = '';
 
-			$is_description = $this->is_description($line);
+			$is_description = ( $line_number == 1 );
 			if ( $is_description ) {
 				$thing = 'description';
 			}
@@ -122,7 +125,7 @@ class TomDocParser {
 	//
 	// Returns true if the line is nonempty.
 	private function filter_empty($line) {
-		return !empty($line);
+		return trim($line) != "";
 	}
 
 	// Checks whether a line is a continuation of an existing section, rather
@@ -135,16 +138,6 @@ class TomDocParser {
 	//     start of a new section.
 	private function is_continuation($line) {
 		return preg_match('/^\s{3,}/', $line);
-	}
-
-	// Checks if a line is the start of a description block (usually the first
-	// line in a block).
-	//
-	// $line - The line to check
-	//
-	// Returns true if the line is a description, false otherwise.
-	private function is_description($line) {
-		return preg_match('/^\s*(Public|Protected|Private):\s+/i', $line);
 	}
 
 	// Checks if a line is a description of a function's return value.
