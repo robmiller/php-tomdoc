@@ -31,8 +31,8 @@ class TomDocParser {
 
 		preg_match_all(
 			'/
-			((^\s*' . $this->comment . ' .*$\n)+)
-			' . $this->function_signature . '
+			((^\s*' . $this->comment . ' .*$\n)+
+			' . $this->function_signature . '.*?)(\s*{)?$
 			/xm',
 			$code,
 			$matches
@@ -50,6 +50,7 @@ class TomDocParser {
 	//     they exist in the block or not.
 	public function parse_block($block) {
 		$output = (object) array(
+			'signature' => '',
 			'description' => '',
 			'arguments' => array(),
 			'examples' => '',
@@ -62,13 +63,13 @@ class TomDocParser {
 
 		$line_number = 0;
 		foreach ( (array) $lines as $line ) {
+			$line_number++;
+
 			// Empty lines should be ignored, except in examples.
 			$is_empty = $this->is_empty($line);
 			if ( $is_empty && ( empty($thing) || $thing != 'examples' ) ) {
 				continue;
 			}
-
-			$line_number++;
 
 			$is_continuation = $this->is_continuation($line);
 			if ( $is_empty || $is_continuation ) {
@@ -90,9 +91,7 @@ class TomDocParser {
 				continue;
 			}
 
-			$thing = '';
-
-			$is_description = ( $line_number == 1 );
+			$is_description = ( empty($thing) );
 			if ( $is_description ) {
 				$thing = 'description';
 			}
@@ -112,6 +111,11 @@ class TomDocParser {
 				$thing = 'examples';
 				$output->examples = ltrim($line);
 				continue;
+			}
+
+			$is_signature = ( $line_number == count($lines) );
+			if ( $is_signature ) {
+				$thing = 'signature';
 			}
 
 			if ( empty($thing) ) {

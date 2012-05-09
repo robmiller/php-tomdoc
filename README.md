@@ -36,6 +36,5 @@ of your documentation.
 * Write command line tool
 * Write output streams: console, HTML, plain-text
 * Parse out default values for optional arguments
-* Parse out the function signature to go with the doc block
 * Test with regular global functions (not just class methods)
 * Support class-level docs, not just method-level
