@@ -4,6 +4,7 @@ class TomDocParser {
 
 	// Set up some reusable parsing tokens.
 	private $comment = '(\/\/|\#)';
+	private $argument = '\s*(\$\w+)\s+(-|–|—)\s+';
 
 
 	// Public: Instantiates the parser for the given file.
@@ -104,6 +105,16 @@ class TomDocParser {
 			$output->$thing = rtrim($line);
 		}
 
+		// For arguments, split them into variables and descriptions.
+		$arg = 0;
+		foreach ( (array) $output->arguments as $argument ) {
+			preg_match('/' . $this->argument . '(.*)$/', $argument, $matches);
+			list(, $variable, , $description) = $matches;
+			$output->arguments[$arg] = (object) compact('variable', 'description');
+
+			$arg++;
+		}
+
 		return $output;
 	}
 
@@ -158,7 +169,7 @@ class TomDocParser {
 	//
 	// Returns true if the line is an argument.
 	private function is_argument($line) {
-		return preg_match('/^\s*(\$\w+)\s+(-|–|—)\s+/', $line);
+		return preg_match('/^' . $this->argument . '/', $line);
 	}
 
 	// Public: outputs the parsed documentation to the given stream.
