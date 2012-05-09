@@ -2,6 +2,7 @@
 
 require_once dirname(__FILE__) . '/../lib/finder.php';
 require_once dirname(__FILE__) . '/../lib/parser.php';
+require_once dirname(__FILE__) . '/../lib/stream.php';
 
 class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 
@@ -78,6 +79,23 @@ class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 		$this->assertNotEmpty($elements->description);
 
 		return $tester;
+	}
+
+	/**
+	 * @depends testLimitedFunctionBlock
+	 */
+	public function testStream($tester) {
+		$stream = new VarDumpStream();
+
+		$tester->parser->parse();
+
+		ob_start();
+		$tester->parser->output(&$stream);
+		$output = ob_get_clean();
+
+		echo $output;
+
+		$this->assertNotEmpty($output);
 	}
 
 }

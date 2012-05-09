@@ -7,6 +7,8 @@ class TomDocParser {
 	private $argument       = '\s*(\$\w+)\s+(-|–|—)\s+';
 	private $code_signature = '^\s*(\w*\s*)?(function|class)';
 
+	private $parsed_blocks = array();
+
 	// Public: Instantiates the parser for the given file.
 	//
 	// $file - The fully-qualified path to the file you wish to parse.
@@ -21,6 +23,13 @@ class TomDocParser {
 	//     it to a terminal or write it to a file.
 	public function parse() {
 		$blocks = $this->find_blocks();
+		$this->parsed_blocks = array();
+
+		foreach ( (array) $blocks as $block ) {
+			$this->parsed_blocks[] = $this->parse_block($block);
+		}
+
+		return $this->parsed_blocks;
 	}
 
 	// Public: given PHP code, will extract doc blocks from it.
@@ -219,7 +228,7 @@ class TomDocParser {
 	//
 	// Returns nothing; relies on the stream to output/return as it deems fit.
 	public function output($stream) {
-
+		$stream->write($this->parsed_blocks);
 	}
 
 }
