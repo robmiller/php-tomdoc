@@ -52,6 +52,7 @@ class TomDocParser {
 		$output = (object) array(
 			'description' => '',
 			'arguments' => array(),
+			'examples' => '',
 			'returns' => ''
 		);
 
@@ -59,16 +60,29 @@ class TomDocParser {
 		$lines = explode("\n", $block);
 		$lines = array_map(array(&$this, 'strip_comments'), $lines);
 
-		$lines = array_filter($lines, array(&$this, 'filter_empty'));
-
 		$line_number = 0;
 		foreach ( (array) $lines as $line ) {
+			// Empty lines should be ignored, except in examples.
+			$is_empty = $this->is_empty($line);
+			if ( $is_empty && ( empty($thing) || $thing != 'examples' ) ) {
+				continue;
+			}
+
 			$line_number++;
 
 			$is_continuation = $this->is_continuation($line);
-			if ( $is_continuation ) {
+			if ( $is_empty || $is_continuation ) {
+				if ( empty($thing) ) {
+					continue;
+				}
+
 				if ( $thing == 'argument' ) {
 					$output->arguments[count($output->arguments)] .= ' ' . trim($line);
+					continue;
+				}
+
+				if ( $thing == 'examples' ) {
+					$output->examples .= "\n" . rtrim($line);
 					continue;
 				}
 
@@ -93,16 +107,23 @@ class TomDocParser {
 				$thing = 'argument';
 			}
 
+			$is_example = $this->is_example($line);
+			if ( $is_example ) {
+				$thing = 'examples';
+				$output->examples = ltrim($line);
+				continue;
+			}
+
 			if ( empty($thing) ) {
 				continue;
 			}
 
 			if ( $thing == 'argument' ) {
-				$output->arguments[] = rtrim($line);
+				$output->arguments[] = trim($line);
 				continue;
 			}
 
-			$output->$thing = rtrim($line);
+			$output->$thing = trim($line);
 		}
 
 		// For arguments, split them into variables and descriptions.
@@ -119,13 +140,13 @@ class TomDocParser {
 	}
 
 	// Strips the comment tags from a line. Will strip leading whitespace, 
-	//     then "//", then a single space.
+	//     then "//" or "#"
 	//
 	// $line - The line to strip comments from
 	//
 	// Returns the line without the comments
 	private function strip_comments($line) {
-		return preg_replace('/^\s*' . $this->comment . ' /', '', $line);
+		return preg_replace('/^\s*' . $this->comment . '/', '', $line);
 	}
 
 	// Checks whether a line, after having had its comment tag stripped from
@@ -135,8 +156,8 @@ class TomDocParser {
 	// $line - The line to check
 	//
 	// Returns true if the line is nonempty.
-	private function filter_empty($line) {
-		return trim($line) != "";
+	private function is_empty($line) {
+		return trim($line) == "";
 	}
 
 	// Checks whether a line is a continuation of an existing section, rather
@@ -148,7 +169,7 @@ class TomDocParser {
 	// Returns true if the line is a continuation line, or false if it's the
 	//     start of a new section.
 	private function is_continuation($line) {
-		return preg_match('/^\s{3,}/', $line);
+		return preg_match('/^\s{2,}/', $line);
 	}
 
 	// Checks if a line is a description of a function's return value.
@@ -170,6 +191,15 @@ class TomDocParser {
 	// Returns true if the line is an argument.
 	private function is_argument($line) {
 		return preg_match('/^' . $this->argument . '/', $line);
+	}
+
+	// Checks if a line is the beginning of an examples section.
+	//
+	// $line - The line to check
+	//
+	// Returns true if the line starts an examples section.
+	private function is_example($line) {
+		return preg_match('/^\s*Examples?\s*$/i', $line);
 	}
 
 	// Public: outputs the parsed documentation to the given stream.

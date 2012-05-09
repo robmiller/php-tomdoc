@@ -8,6 +8,12 @@ class Foo {
 	# $argument1 - the thing to do
 	# $argument2 - another thing to do
 	#
+	# Examples
+	#
+	#   $foo->Bar('something', 'something else');
+	#
+	#   $foo->Bar('another example', 'something else entirely');
+	#
 	# Returns the thing that's been done, after an appropriate amount of
 	#     waffle has been applied to it to get it to wrap to multiple lines
 	#     which is very important.
