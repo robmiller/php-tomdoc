@@ -1,0 +1,29 @@
+#!/usr/bin/php
+<?php
+
+require_once dirname(__FILE__) . '/lib/finder.php';
+require_once dirname(__FILE__) . '/lib/parser.php';
+require_once dirname(__FILE__) . '/lib/stream.php';
+
+$stream = new ConsoleStream();
+
+if ( is_dir($argv[1]) ) {
+	$finder = new TomDocFinder($argv[1]);
+	$files = $finder->find('**/*.php');
+
+	foreach ( (array) $files as $file ) {
+		$parser = new TomDocParser($file);
+
+		$parser->parse();
+
+		$parser->output(&$stream);
+	}
+}
+
+if ( is_file($argv[1]) ) {
+	$parser = new TomDocParser($argv[1]);
+
+	$parser->parse();
+
+	$parser->output(&$stream);
+}

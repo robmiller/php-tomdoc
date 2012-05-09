@@ -87,7 +87,7 @@ class TomDocParser {
 				}
 
 				if ( $thing == 'argument' ) {
-					$output->arguments[count($output->arguments)] .= ' ' . trim($line);
+					$output->arguments[count($output->arguments) - 1] .= ' ' . trim($line);
 					continue;
 				}
 
@@ -143,6 +143,11 @@ class TomDocParser {
 		$arg = 0;
 		foreach ( (array) $output->arguments as $argument ) {
 			preg_match('/' . $this->argument . '(.*)$/', $argument, $matches);
+
+			if ( count($matches) < 3 ) {
+				continue;
+			}
+
 			list(, $variable, , $description) = $matches;
 			$output->arguments[$arg] = (object) compact('variable', 'description');
 

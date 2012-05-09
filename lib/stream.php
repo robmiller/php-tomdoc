@@ -21,14 +21,16 @@ class VarDumpStream {
 // A stream that writes to the console using a pager.
 class ConsoleStream {
 
-	public function __construct() {
-		$this->use_colours = (function_exists('posix_isatty') && posix_isatty(STDOUT));
+	public function __construct($use_colours = true, $width = 60) {
+		$this->use_colours = $use_colours && (function_exists('posix_isatty') && posix_isatty(STDOUT));
 
 		$this->colours = array(
 			'default' => "\x1b[0m",
 			'green'   => "\x1b[32m",
 			'yellow'  => "\x1b[33m"
 		);
+
+		$this->width = intval($width);
 	}
 
 	private function colour_echo($text, $colour) {
@@ -65,7 +67,7 @@ class ConsoleStream {
 				$this->colour_echo("$block->signature\n\n", 'yellow');
 
 				if ( !empty($block->description) ) {
-					$block->description = wordwrap($block->description, 50);
+					$block->description = wordwrap($block->description, $this->width - 8);
 					$block->description = str_replace("\n", "\n\t\t", $block->description);
 
 					echo "\t\t$block->description\n\n";
@@ -75,7 +77,14 @@ class ConsoleStream {
 					echo "\t\tAccepts " . count($block->arguments) . " arguments:\n\n";
 
 					foreach ( (array) $block->arguments as $argument ) {
+						if ( empty($argument->variable) ) {
+							continue;
+						}
+
 						$this->colour_echo("\t\t$argument->variable\n", 'yellow');
+
+						$argument->description = wordwrap($argument->description, $this->width - 16);
+						$argument->description = str_replace("\n", "\n\t\t\t", $argument->description);
 
 						echo "\t\t\t" . ucfirst($argument->description) . "\n";
 					}
@@ -86,7 +95,7 @@ class ConsoleStream {
 				}
 
 				if ( !empty($block->returns) ) {
-					$block->returns = wordwrap($block->returns, 50);
+					$block->returns = wordwrap($block->returns, $this->width - 8);
 					$block->returns = str_replace("\n", "\n\t\t", $block->returns);
 
 					echo "\t\t$block->returns\n\n";

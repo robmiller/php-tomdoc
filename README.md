@@ -27,13 +27,19 @@ bonus of being readable by a machine, too.
 
 ## How to use
 
-Currently, php-tomdoc is just a library, but soon it will have a command-line
-tool for viewing docs on the command line and for generating an HTML version
-of your documentation.
+To view documentation for a specific file, call:
+
+	$ php-tomdoc /path/to/file.php
+
+To view documentation for all the PHP files within a directory, call:
+
+	$ php-tomdoc /path/to/directory
+
+For now, you can only view output in your terminal; coming soon will be the
+ability to write documentation to HTML and plain-text files.
 
 ## Todos
 
-* Write command line tool
-* Write output streams: console, HTML, plain-text
+* Write output streams for HTML, plain-text
 * Parse out default values for optional arguments
 * Test with regular global functions (not just class methods)

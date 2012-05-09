@@ -93,7 +93,8 @@ class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 		$tester->parser->output(&$stream);
 		$output = ob_get_clean();
 
-		echo $output;
+		$stream = new ConsoleStream();
+		$tester->parser->output(&$stream);
 
 		$this->assertNotEmpty($output);
 	}
