@@ -6,6 +6,7 @@ class TomDocParser {
 	private $comment        = '(\/\/|\#)';
 	private $argument       = '\s*(\$\w+)\s+(-|–|—)\s+';
 	private $code_signature = '^\s*(\w*\s*)?(function|class)';
+	private $default_value  = '\s*\(Default:\s+([^\)]+)\)';
 
 	private $parsed_blocks = array();
 
@@ -149,7 +150,23 @@ class TomDocParser {
 			}
 
 			list(, $variable, , $description) = $matches;
-			$output->arguments[$arg] = (object) compact('variable', 'description');
+
+			$default = preg_match('/' . $this->default_value . '/i', $description, $matches);
+			if ( $default ) {
+				$default = $matches[1];
+				$description = preg_replace('/' . $this->default_value . '/i', '', $description);
+			} else {
+				$default = '';
+			}
+
+			$optional = preg_match('/\(Optional\)/i', $description);
+			$optional = ( $optional > 0 || !empty($default) );
+
+			$output->arguments[$arg] = (object) compact('variable', 'description', 'optional', 'default');
+
+			if ( !$optional ) {
+				unset($output->arguments[$arg]->default);
+			}
 
 			$arg++;
 		}

@@ -41,5 +41,4 @@ ability to write documentation to HTML and plain-text files.
 ## Todos
 
 * Write output streams for HTML, plain-text
-* Parse out default values for optional arguments
 * Test with regular global functions (not just class methods)

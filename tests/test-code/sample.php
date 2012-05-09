@@ -11,7 +11,7 @@ class Foo {
 	#     a long description.
 	#
 	# $argument1 - the thing to do
-	# $argument2 - another thing to do
+	# $argument2 - another thing to do (default: 'foo')
 	#
 	# Examples
 	#
@@ -22,7 +22,7 @@ class Foo {
 	# Returns the thing that's been done, after an appropriate amount of
 	#     waffle has been applied to it to get it to wrap to multiple lines
 	#     which is very important.
-	public function Bar($argument1, $argument2) {
+	public function Bar($argument1, $argument2 = 'foo') {
 
 	}
 

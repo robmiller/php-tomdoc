@@ -81,12 +81,25 @@ class ConsoleStream {
 							continue;
 						}
 
-						$this->colour_echo("\t\t$argument->variable\n", 'yellow');
+						echo "\t\t* ";
+						$this->colour_echo($argument->variable, 'yellow');
+
+						if ( $argument->optional ) {
+							if ( !empty($argument->default) ) {
+								echo " (Optional, default ";
+								$this->colour_echo($argument->default, 'yellow');
+								echo ")";
+							} else {
+								echo " (Optional)";
+							}
+						}
+
+						echo "\n";
 
 						$argument->description = wordwrap($argument->description, $this->width - 16);
 						$argument->description = str_replace("\n", "\n\t\t\t", $argument->description);
 
-						echo "\t\t\t" . ucfirst($argument->description) . "\n";
+						echo "\t\t\t" . ucfirst($argument->description) . "\n\n";
 					}
 
 					echo "\n";
