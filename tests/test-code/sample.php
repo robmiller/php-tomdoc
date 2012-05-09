@@ -1,5 +1,10 @@
 <?php
 
+// Public: does Foo
+//
+// Examples
+//
+//   $foo = new Foo();
 class Foo {
 
 	# Public: does a thing. A very important thing. A thing befitting such
@@ -26,15 +31,7 @@ class Foo {
 	}
 
 	// Does another thing.
-	//
-	// $argument - The other thing
-	//
-	// Examples
-	//
-	//   $foo->Baz('test');
-	//
-	// Returns the other thing
-	public function Baz($argument) {
+	public function Baz() {
 
 	}
 }

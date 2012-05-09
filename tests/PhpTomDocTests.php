@@ -16,34 +16,68 @@ class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 	public function testFinder() {
 		$finder = new TomDocFinder(dirname(__FILE__) . '/test-code/');
 
-		$files = $finder->find('*.php');
+		$this->files = $finder->find('*.php');
 
 		$this->assertCount(1, $finder->files);
 
-		return $files;
+		return $this;
 	}
 
 	/**
 	 * @depends testFinder
 	 */
-	public function testParse(array $files) {
-		$parser = new TomDocParser($files[0]);
+	public function testParse($tester) {
+		$tester->parser = new TomDocParser($tester->files[0]);
 
-		$blocks = $parser->find_blocks();
+		$tester->blocks = $tester->parser->find_blocks();
 
-		$this->assertNotEmpty($blocks);
+		$this->assertNotEmpty($tester->blocks);
 
-		foreach ( (array) $blocks as $block ) {
-			$elements = $parser->parse_block($block);
+		return $tester;
+	}
 
-			$this->assertNotEmpty($elements->description);
+	/**
+	 * @depends testParse
+	 */
+	public function testClassBlock($tester) {
+		$block = array_shift($tester->blocks);
 
-			$this->assertGreaterThan(0, $elements->arguments);
+		$elements = $tester->parser->parse_block($block);
 
-			$this->assertNotEmpty($elements->examples);
+		$this->assertNotEmpty($elements->description);
+		$this->assertNotEmpty($elements->examples);
 
-			$this->assertNotEmpty($elements->returns);
-		}
+		return $tester;
+	}
+
+	/**
+	 * @depends testClassBlock
+	 */
+	public function testFullFunctionBlock($tester) {
+		$block = array_shift($tester->blocks);
+
+		$elements = $tester->parser->parse_block($block);
+
+		$this->assertNotEmpty($elements->description);
+		$this->assertCount(2, $elements->arguments);
+		$this->assertCount(2, get_object_vars($elements->arguments[0]));
+		$this->assertNotEmpty($elements->examples);
+		$this->assertNotEmpty($elements->returns);
+
+		return $tester;
+	}
+
+	/**
+	 * @depends testFullFunctionBlock
+	 */
+	public function testLimitedFunctionBlock($tester) {
+		$block = array_shift($tester->blocks);
+
+		$elements = $tester->parser->parse_block($block);
+
+		$this->assertNotEmpty($elements->description);
+
+		return $tester;
 	}
 
 }
