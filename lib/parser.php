@@ -3,9 +3,9 @@
 class TomDocParser {
 
 	// Set up some reusable parsing tokens.
-	private $comment = '(\/\/|\#)';
-	private $argument = '\s*(\$\w+)\s+(-|–|—)\s+';
-
+	private $comment            = '(\/\/|\#)';
+	private $argument           = '\s*(\$\w+)\s+(-|–|—)\s+';
+	private $function_signature = '^\s*(\w*\s*)?function';
 
 	// Public: Instantiates the parser for the given file.
 	//
@@ -32,7 +32,7 @@ class TomDocParser {
 		preg_match_all(
 			'/
 			((^\s*' . $this->comment . ' .*$\n)+)
-			^\s*(\w*\s*)?function
+			' . $this->function_signature . '
 			/xm',
 			$code,
 			$matches
