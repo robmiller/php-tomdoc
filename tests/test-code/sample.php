@@ -20,4 +20,21 @@ class Foo {
 	public function Bar($argument1, $argument2) {
 
 	}
+
+	public function HasNoDocs() {
+
+	}
+
+	// Does another thing.
+	//
+	// $argument - The other thing
+	//
+	// Examples
+	//
+	//   $foo->Baz('test');
+	//
+	// Returns the other thing
+	public function Baz($argument) {
+
+	}
 }

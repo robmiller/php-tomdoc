@@ -38,7 +38,7 @@ class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 
 			$this->assertNotEmpty($elements->description);
 
-			$this->assertCount(2, $elements->arguments);
+			$this->assertGreaterThan(0, $elements->arguments);
 
 			$this->assertNotEmpty($elements->examples);
 
