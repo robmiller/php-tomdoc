@@ -37,4 +37,3 @@ of your documentation.
 * Write output streams: console, HTML, plain-text
 * Parse out default values for optional arguments
 * Test with regular global functions (not just class methods)
-* Support class-level docs, not just method-level

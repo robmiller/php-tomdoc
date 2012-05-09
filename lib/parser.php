@@ -3,9 +3,9 @@
 class TomDocParser {
 
 	// Set up some reusable parsing tokens.
-	private $comment            = '(\/\/|\#)';
-	private $argument           = '\s*(\$\w+)\s+(-|–|—)\s+';
-	private $function_signature = '^\s*(\w*\s*)?function';
+	private $comment        = '(\/\/|\#)';
+	private $argument       = '\s*(\$\w+)\s+(-|–|—)\s+';
+	private $code_signature = '^\s*(\w*\s*)?(function|class)';
 
 	// Public: Instantiates the parser for the given file.
 	//
@@ -32,7 +32,7 @@ class TomDocParser {
 		preg_match_all(
 			'/
 			((^\s*' . $this->comment . ' .*$\n)+
-			' . $this->function_signature . '.*?)(\s*{)?$
+			' . $this->code_signature . '.*?)(\s*{)?$
 			/xm',
 			$code,
 			$matches
@@ -138,6 +138,12 @@ class TomDocParser {
 			$output->arguments[$arg] = (object) compact('variable', 'description');
 
 			$arg++;
+		}
+
+		// If this is a class block, then there won't be args/return values.
+		if ( preg_match('/class/', $output->signature) ) {
+			unset($output->arguments);
+			unset($output->returns);
 		}
 
 		return $output;
