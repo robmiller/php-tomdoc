@@ -153,6 +153,9 @@ class TomDocParser {
 		if ( preg_match('/class/', $output->signature) ) {
 			unset($output->arguments);
 			unset($output->returns);
+			$output->type = 'class';
+		} else {
+			$output->type = 'function';
 		}
 
 		return $output;
@@ -228,7 +231,7 @@ class TomDocParser {
 	//
 	// Returns nothing; relies on the stream to output/return as it deems fit.
 	public function output($stream) {
-		$stream->write($this->parsed_blocks);
+		$stream->write($this->file, $this->parsed_blocks);
 	}
 
 }
