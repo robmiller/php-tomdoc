@@ -38,6 +38,10 @@ To view documentation for all the PHP files within a directory, call:
 For now, you can only view output in your terminal; coming soon will be the
 ability to write documentation to HTML and plain-text files.
 
+## Example output
+
+![Example of php-tomdoc output](http://i48.tinypic.com/1jpaif.png)
+
 ## Todos
 
 * Write output streams for HTML, plain-text
