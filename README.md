@@ -33,7 +33,6 @@ of your documentation.
 
 ## Todos
 
-* Parse "example" sections of doc blocks
 * Write command line tool
 * Write output streams: console, HTML, plain-text
 * Parse out default values for optional arguments
