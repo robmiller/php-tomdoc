@@ -5,7 +5,12 @@ require_once dirname(__FILE__) . '/lib/finder.php';
 require_once dirname(__FILE__) . '/lib/parser.php';
 require_once dirname(__FILE__) . '/lib/stream.php';
 
-$stream = new ConsoleStream();
+$output_file = 'docs.html';
+if ( !empty($argv[2]) ) {
+	$output_file = $argv[2];
+}
+
+$stream = new HTMLStream($output_file);
 
 if ( is_dir($argv[1]) ) {
 	$finder = new TomDocFinder($argv[1]);

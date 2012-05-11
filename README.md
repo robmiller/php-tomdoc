@@ -27,16 +27,18 @@ bonus of being readable by a machine, too.
 
 ## How to use
 
-To view documentation for a specific file, call:
+To generate documentation for a specific file and write it to docs/file.html,
+call:
 
-	$ php-tomdoc /path/to/file.php
+	$ php-tomdoc /path/to/file.php docs/file.html
 
-To view documentation for all the PHP files within a directory, call:
+To generate documentation for all the PHP files within a directory and write
+it to docs/index.html, call:
 
-	$ php-tomdoc /path/to/directory
+	$ php-tomdoc /path/to/directory docs/index.html
 
-For now, you can only view output in your terminal; coming soon will be the
-ability to write documentation to HTML and plain-text files.
+For now, only HTML output can be generated through the command line tool, but
+there's a coloured console mode that will be enabled soon!
 
 ## Example output
 
