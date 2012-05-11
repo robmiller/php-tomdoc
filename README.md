@@ -44,5 +44,10 @@ ability to write documentation to HTML and plain-text files.
 
 ## Todos
 
-* Write output streams for HTML, plain-text
+* Write output stream for plain-text
+* Improve HTML rendering
+* Allow choice of output in command line mode
+* When outputting in HTML, allow choice of single file (default) or multiple
+  files (one per source file).
+* Explore proper nesting of functions within classes -- reflection?
 * Test with regular global functions (not just class methods)
