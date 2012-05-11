@@ -42,7 +42,12 @@ there's a coloured console mode that will be enabled soon!
 
 ## Example output
 
-![Example of php-tomdoc output](http://i48.tinypic.com/1jpaif.png)
+You can see an example of php-tomdoc's HTML output [here][html-output].
+
+A screenshot of its console output can be found [here][console-output].
+
+[html-output]:    http://digital.bigfish.co.uk/php-tomdoc/
+[console-output]: http://digital.bigfish.co.uk/php-tomdoc/console-output.png
 
 ## Todos
 
