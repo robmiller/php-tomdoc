@@ -98,6 +98,32 @@ class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 		$tester->parser->output(&$stream);
 
 		$this->assertNotEmpty($output);
+
+		return $tester;
+	}
+
+	/**
+	 * @depends testStream
+	 */
+	public function testHTMLStream($tester) {
+		$html_file = 'test.html';
+
+		$stream = new HTMLStream($html_file);
+
+		$finder = new TomDocFinder('.');
+		$files = $finder->find('**/*.php');
+
+		foreach ( (array) $files as $file ) {
+			$parser = new TomDocParser($file);
+
+			$parser->parse();
+
+			$parser->output(&$stream);
+		}
+
+		$html = file_get_contents($html_file);
+		$this->assertFileExists($html_file);
+		$this->assertNotEmpty($html_file);
 	}
 
 }
