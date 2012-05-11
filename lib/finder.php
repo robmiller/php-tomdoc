@@ -15,6 +15,23 @@ class TomDocFinder {
 		}
 	}
 
+	// Recursively fetches all files under the given directory.
+	//
+	// $dir - The directory in which to look.
+	// $glob - A pattern to match files against (default: '*')
+	//
+	// Returns an array of filenames.
+	private function get_files($dir, $glob = '*') {
+		$files = glob("$dir/$glob");
+
+		$dirs  = glob("$dir/*", GLOB_ONLYDIR);
+		foreach ( (array) $dirs as $subdir ) {
+			$files = array_merge($files, $this->get_files($subdir, $glob));
+		}
+
+		return $files;
+	}
+
 	// Public: searches for files that match the given pattern in the current
 	//     directory.
 	//
@@ -26,7 +43,7 @@ class TomDocFinder {
 	//
 	// Returns an array of the files matched.
 	public function find($glob) {
-		$this->files = glob($this->dir . $glob);
+		$this->files = $this->get_files($this->dir, $glob);
 
 		$this->files = array_map('realpath', $this->files);
 

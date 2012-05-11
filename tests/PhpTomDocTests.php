@@ -111,7 +111,7 @@ class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 		$stream = new HTMLStream($html_file);
 
 		$finder = new TomDocFinder('.');
-		$files = $finder->find('**/*.php');
+		$files = $finder->find('*.php');
 
 		foreach ( (array) $files as $file ) {
 			$parser = new TomDocParser($file);

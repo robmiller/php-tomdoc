@@ -90,6 +90,21 @@
 
 <p class='args noargs'>Accepts no arguments.</p>
 
+</section><section class='function' id='function-e8d81'><h3><a href='#function-e8d81'>#</a> Function: <code>private function get_files($dir, $glob = '*')</code></h3>
+
+<p>Recursively fetches all files under the given directory.</p>
+
+<p class='args'>Accepts 2 arguments:</p>
+
+<dt><code>$dir</code></dt>
+<dd>The directory in which to look.</dd>
+
+<dt><code>$glob</code><span class='optional'> (Optional, default '*')</span></dt>
+<dd>A pattern to match files against</dd>
+
+
+<p class='returns'>Returns an array of filenames.</p>
+
 </section><section class='function' id='function-ea631'><h3><a href='#function-ea631'>#</a> Function: <code>public function find($glob)</code></h3>
 
 <p>Public: searches for files that match the given pattern in the current directory.</p>
@@ -244,5 +259,62 @@
 
 
 <p class='returns'>Returns nothing.</p>
+
+</section></article><article class='file'><h1>/Users/rob/bin/php-tomdoc/lib/streams/console.php</h1>
+
+<h2 id='class-21439'><a href='#class-21439'>#</a> Class: <code>class ConsoleStream</code></h2>
+
+<p>A stream that writes to the console using a pager.</p><section class='function' id='function-e2687'><h3><a href='#function-e2687'>#</a> Function: <code>public function write($file, $blocks)</code></h3>
+
+<p>Writes the stream</p>
+
+<p class='args'>Accepts 1 argument:</p>
+
+<dt><code>$blocks</code></dt>
+<dd>The blocks to output</dd>
+
+
+<p class='returns'>Returns nothing</p>
+
+</section></article><article class='file'><h1>/Users/rob/bin/php-tomdoc/lib/streams/html.php</h1>
+
+<h2 id='class-05c60'><a href='#class-05c60'>#</a> Class: <code>class HTMLStream</code></h2>
+
+<p>A stream that writes documentation to an HTML file.</p><section class='function' id='function-e2687'><h3><a href='#function-e2687'>#</a> Function: <code>public function write($file, $blocks)</code></h3>
+
+<p>Writes a stream for a particular source file. By default, will append the documentation for the file to a single HTML document.</p>
+
+<p class='args'>Accepts 1 argument:</p>
+
+<dt><code>$blocks</code></dt>
+<dd>The blocks to output</dd>
+
+
+<p class='returns'>Returns nothing</p>
+
+</section></article><article class='file'><h1>/Users/rob/bin/php-tomdoc/tests/test-code/sample.php</h1>
+
+<h2 id='class-d1037'><a href='#class-d1037'>#</a> Class: <code>class Foo</code></h2>
+
+<p>Public: does Foo</p><section class='function' id='function-bde30'><h3><a href='#function-bde30'>#</a> Function: <code>public function Bar($argument1, $argument2 = 'foo')</code></h3>
+
+<p>Public: does a thing. A very important thing. A thing befitting such a long description.</p>
+
+<p class='args'>Accepts 2 arguments:</p>
+
+<dt><code>$argument1</code></dt>
+<dd>The thing to do</dd>
+
+<dt><code>$argument2</code><span class='optional'> (Optional, default 'foo')</span></dt>
+<dd>Another thing to do</dd>
+
+
+<p class='returns'>Returns the thing that's been done, after an appropriate amount of waffle has been applied to it to get it to wrap to multiple lines which is very important.</p>
+
+</section><section class='function' id='function-1ea2c'><h3><a href='#function-1ea2c'>#</a> Function: <code>public function Baz()</code></h3>
+
+<p>Does another thing.</p>
+
+<p class='args noargs'>Accepts no arguments.</p>
 
 </section></article>

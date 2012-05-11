@@ -9,7 +9,7 @@ $stream = new ConsoleStream();
 
 if ( is_dir($argv[1]) ) {
 	$finder = new TomDocFinder($argv[1]);
-	$files = $finder->find('**/*.php');
+	$files = $finder->find('*.php');
 
 	foreach ( (array) $files as $file ) {
 		$parser = new TomDocParser($file);
