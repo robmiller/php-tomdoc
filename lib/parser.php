@@ -1,5 +1,7 @@
 <?php
 
+// Provides functionality for parsing the documentation within a file. This is
+//     the meat of php-tomdoc.
 class TomDocParser {
 
 	// Set up some reusable parsing tokens.
@@ -10,14 +12,16 @@ class TomDocParser {
 
 	private $parsed_blocks = array();
 
-	// Public: Instantiates the parser for the given file.
+	// Instantiates the parser for the given file.
 	//
 	// $file - The fully-qualified path to the file you wish to parse.
 	public function __construct($file) {
 		$this->file = $file;
 	}
 
-	// Public: parses the current file.
+	// Parses the current file. First, tries to find all the docblocks in the
+	//     file; then, parses them individually. Finally, returns an array of
+	//     all the parsed blocks' data.
 	//
 	// Returns an array of objects, each representing a doc block. Use
 	//     output() to do something useful with the parsed data, e.g. output
@@ -33,7 +37,7 @@ class TomDocParser {
 		return $this->parsed_blocks;
 	}
 
-	// Public: given PHP code, will extract doc blocks from it.
+	// Looks for the docblocks in a given piece of PHP code.
 	//
 	// Returns an array of strings, each containing the raw source of a block.
 	public function find_blocks() {
@@ -53,8 +57,8 @@ class TomDocParser {
 		return $blocks;
 	}
 
-	// Public: actually does the nitty-gritty of the parsing, taking a doc
-	//     block and returning the various components.
+	// Given the source of a docblock, will extract the information contained
+	//     within into an object.
 	//
 	// Returns an object containing all of the possible parsed values, whether
 	//     they exist in the block or not.

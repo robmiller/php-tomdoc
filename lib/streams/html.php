@@ -116,6 +116,8 @@ class HTMLStream {
 
 			if ( $block->type == 'class' ) {
 				echo "<h2 id='class-$hash'><a href='#class-$hash'>#</a> Class: <code>$block->signature</code></h2>\n\n";
+
+				echo "<p>$block->description</p>";
 			}
 
 			if ( $block->type == 'function' ) {

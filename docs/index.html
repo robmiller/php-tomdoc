@@ -1,0 +1,248 @@
+
+			<!DOCTYPE html>
+			<html>
+				<head>
+					<title>php-tomdoc</title>
+					<meta charset='utf-8'>
+
+					<style type='text/css'>
+						body {
+							font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+							font-size:14px;
+						}
+
+						#search {
+							font-size:18px;
+						}
+
+						article {
+							margin:2em 0 0 2em;
+							padding:1em 0 0 0;
+							border-top:1px solid #ccc;
+						}
+
+						section {
+							margin:2em 0 0 2em;
+							padding-left:2em;
+							border-top:1px solid #ccc;
+						}
+
+						h1 + section {
+							margin-top:0;
+							border:none;
+						}
+
+						article h1 {
+							font-weight:100;
+							font-size:20px;
+							margin:0 0 0.25em 0;
+							padding:0;
+						}
+
+						article h2 {
+							font-weight:normal;
+							font-size:16px;
+						}
+
+						article h3 {
+							font-weight:normal;
+							font-size:16px;
+							margin-left:-2em;
+						}
+
+						code {
+							font-family:Monaco, monospace;
+							font-size:0.9em;
+						}
+					</style>
+				</head>
+
+				<body>
+
+					<input type='text' placeholder='search&hellip;' id='search'>
+
+					<script type='text/javascript'>
+						document.getElementById('search').onkeyup = function() {
+							term = this.value;
+
+							functions = document.getElementsByTagName('section');
+							for ( var i = 0; i < functions.length; i++ ) {
+								if ( term.length == 0 ) {
+									functions[i].style.display = 'block';
+								} else {
+									console.log(functions[i].innerHTML);
+									if ( functions[i].innerHTML.match(term) ) {
+										functions[i].style.display = 'block';
+									} else {
+										functions[i].style.display = 'none';
+									}
+								}
+							}
+						}
+					</script>
+		<article class='file'><h1>/Users/rob/bin/php-tomdoc/lib/finder.php</h1>
+
+<h2 id='class-6b30a'><a href='#class-6b30a'>#</a> Class: <code>class TomDocFinder</code></h2>
+
+<p>Provides some functions for (recursively) finding files within a directory.</p><section class='function' id='function-77dae'><h3><a href='#function-77dae'>#</a> Function: <code>public function __construct($dir)</code></h3>
+
+<p>Public: sets up a Finder instance for the specified directory.</p>
+
+<p class='args noargs'>Accepts no arguments.</p>
+
+</section><section class='function' id='function-ea631'><h3><a href='#function-ea631'>#</a> Function: <code>public function find($glob)</code></h3>
+
+<p>Public: searches for files that match the given pattern in the current directory.</p>
+
+<p class='args'>Accepts 3 arguments:</p>
+
+<dt><code>$glob</code></dt>
+<dd>A glob pattern that matches the files that you want to match.</dd>
+
+
+<p class='returns'>Returns an array of the files matched.</p>
+
+</section></article><article class='file'><h1>/Users/rob/bin/php-tomdoc/lib/parser.php</h1>
+
+<h2 id='class-2c748'><a href='#class-2c748'>#</a> Class: <code>class TomDocParser</code></h2>
+
+<p>Provides functionality for parsing the documentation within a file. This is the meat of php-tomdoc.</p><section class='function' id='function-99f56'><h3><a href='#function-99f56'>#</a> Function: <code>public function __construct($file)</code></h3>
+
+<p>Instantiates the parser for the given file.</p>
+
+<p class='args'>Accepts 1 argument:</p>
+
+<dt><code>$file</code></dt>
+<dd>The fully-qualified path to the file you wish to parse.</dd>
+
+
+</section><section class='function' id='function-b83e7'><h3><a href='#function-b83e7'>#</a> Function: <code>public function parse()</code></h3>
+
+<p>Parses the current file. First, tries to find all the docblocks in the file; then, parses them individually. Finally, returns an array of all the parsed blocks' data.</p>
+
+<p class='args noargs'>Accepts no arguments.</p>
+
+<p class='returns'>Returns an array of objects, each representing a doc block. Use output() to do something useful with the parsed data, e.g. output it to a terminal or write it to a file.</p>
+
+</section><section class='function' id='function-7f8e9'><h3><a href='#function-7f8e9'>#</a> Function: <code>public function find_blocks()</code></h3>
+
+<p>Looks for the docblocks in a given piece of PHP code.</p>
+
+<p class='args noargs'>Accepts no arguments.</p>
+
+<p class='returns'>Returns an array of strings, each containing the raw source of a block.</p>
+
+</section><section class='function' id='function-61600'><h3><a href='#function-61600'>#</a> Function: <code>public function parse_block($block)</code></h3>
+
+<p>Given the source of a docblock, will extract the information contained within into an object.</p>
+
+<p class='args noargs'>Accepts no arguments.</p>
+
+<p class='returns'>Returns an object containing all of the possible parsed values, whether they exist in the block or not.</p>
+
+</section><section class='function' id='function-5af26'><h3><a href='#function-5af26'>#</a> Function: <code>private function strip_comments($line)</code></h3>
+
+<p>Strips the comment tags from a line. Will strip leading whitespace, then "//" or "#"</p>
+
+<p class='args'>Accepts 1 argument:</p>
+
+<dt><code>$line</code></dt>
+<dd>The line to strip comments from</dd>
+
+
+<p class='returns'>Returns the line without the comments</p>
+
+</section><section class='function' id='function-ca65b'><h3><a href='#function-ca65b'>#</a> Function: <code>private function is_empty($line)</code></h3>
+
+<p>Checks whether a line, after having had its comment tag stripped from it, is empty (since TomDoc usually has blank comment lines between sections.) Use with array_filter to trim blocks down to size.</p>
+
+<p class='args'>Accepts 1 argument:</p>
+
+<dt><code>$line</code></dt>
+<dd>The line to check</dd>
+
+
+<p class='returns'>Returns true if the line is nonempty.</p>
+
+</section><section class='function' id='function-30f51'><h3><a href='#function-30f51'>#</a> Function: <code>private function is_continuation($line)</code></h3>
+
+<p>Checks whether a line is a continuation of an existing section, rather than the start of a new one. In TomDoc, continuation lines must start with four spaces, so that's our criteria here.</p>
+
+<p class='args'>Accepts 1 argument:</p>
+
+<dt><code>$line</code></dt>
+<dd>The line to check</dd>
+
+
+<p class='returns'>Returns true if the line is a continuation line, or false if it's the start of a new section.</p>
+
+</section><section class='function' id='function-19220'><h3><a href='#function-19220'>#</a> Function: <code>private function is_return($line)</code></h3>
+
+<p>Checks if a line is a description of a function's return value.</p>
+
+<p class='args'>Accepts 1 argument:</p>
+
+<dt><code>$line</code></dt>
+<dd>The line to check</dd>
+
+
+<p class='returns'>Returns true if the line is a return description, false otherwise.</p>
+
+</section><section class='function' id='function-627fc'><h3><a href='#function-627fc'>#</a> Function: <code>private function is_argument($line)</code></h3>
+
+<p>Checks if a line is a description of a function argument. It checks for optional leading whitespace, then a dollar sign, then some word characters, then some whitespace, then a hyphen, en-dash or em-dash, then more whitespace. Whew!</p>
+
+<p class='args'>Accepts 1 argument:</p>
+
+<dt><code>$line</code></dt>
+<dd>The line to check</dd>
+
+
+<p class='returns'>Returns true if the line is an argument.</p>
+
+</section><section class='function' id='function-c0df1'><h3><a href='#function-c0df1'>#</a> Function: <code>private function is_example($line)</code></h3>
+
+<p>Checks if a line is the beginning of an examples section.</p>
+
+<p class='args'>Accepts 1 argument:</p>
+
+<dt><code>$line</code></dt>
+<dd>The line to check</dd>
+
+
+<p class='returns'>Returns true if the line starts an examples section.</p>
+
+</section><section class='function' id='function-cd71c'><h3><a href='#function-cd71c'>#</a> Function: <code>public function output($stream)</code></h3>
+
+<p>Public: outputs the parsed documentation to the given stream.</p>
+
+<p class='args'>Accepts 1 argument:</p>
+
+<dt><code>$stream</code></dt>
+<dd>An output stream, usually an object that inherits from TomDocStream.</dd>
+
+
+<p class='returns'>Returns nothing; relies on the stream to output/return as it deems fit.</p>
+
+</section></article><article class='file'><h1>/Users/rob/bin/php-tomdoc/lib/stream.php</h1>
+
+<h2 id='class-3af44'><a href='#class-3af44'>#</a> Class: <code>abstract class TomDocStream</code></h2>
+
+<p>Provides a template of functions that all output streams are expected to implement.</p><h2 id='class-6e720'><a href='#class-6e720'>#</a> Class: <code>class VarDumpStream</code></h2>
+
+<p>A stream that simply var_dumps the blocks passed to it; probably useful only for debugging.</p><section class='function' id='function-e2687'><h3><a href='#function-e2687'>#</a> Function: <code>public function write($file, $blocks)</code></h3>
+
+<p>Writes the stream</p>
+
+<p class='args'>Accepts 2 arguments:</p>
+
+<dt><code>$file</code></dt>
+<dd>The source file.</dd>
+
+<dt><code>$blocks</code></dt>
+<dd>The blocks to output.</dd>
+
+
+<p class='returns'>Returns nothing.</p>
+
+</section></article>

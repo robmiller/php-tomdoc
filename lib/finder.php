@@ -1,5 +1,6 @@
 <?php
 
+// Provides some functions for (recursively) finding files within a directory.
 class TomDocFinder {
 
 	public $files = array();
