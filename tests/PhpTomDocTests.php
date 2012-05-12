@@ -137,6 +137,8 @@ class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 		$html = file_get_contents($html_file);
 		$this->assertFileExists($html_file);
 		$this->assertNotEmpty($html_file);
+
+		unlink($html_file);
 	}
 
 }
