@@ -15,26 +15,25 @@ class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testFinder() {
-		$finder = new TomDocFinder(dirname(__FILE__) . '/test-code/');
+		$finder = new TomDocFinder(dirname(__FILE__) . '/test-find/');
 
 		$this->files = $finder->find('*.php');
 
-		$this->assertCount(1, $finder->files);
+		$this->assertCount(3, $finder->files);
 
 		return $this;
 	}
 
-	/**
-	 * @depends testFinder
-	 */
-	public function testParse($tester) {
-		$tester->parser = new TomDocParser($tester->files[0]);
+	public function testParse() {
+		$sample = dirname(__FILE__) . '/test-code/sample.php';
 
-		$tester->blocks = $tester->parser->find_blocks();
+		$this->parser = new TomDocParser($sample);
 
-		$this->assertNotEmpty($tester->blocks);
+		$this->blocks = $this->parser->find_blocks();
 
-		return $tester;
+		$this->assertNotEmpty($this->blocks);
+
+		return $this;
 	}
 
 	/**
