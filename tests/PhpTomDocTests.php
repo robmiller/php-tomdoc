@@ -93,9 +93,6 @@ class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 		$tester->parser->output(&$stream);
 		$output = ob_get_clean();
 
-		$stream = new ConsoleStream();
-		$tester->parser->output(&$stream);
-
 		$this->assertNotEmpty($output);
 
 		return $tester;
@@ -103,6 +100,23 @@ class PhpTomDocTests extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * @depends testStream
+	 */
+	public function testConsoleStream($tester) {
+		$stream = new ConsoleStream();
+
+		$tester->parser->parse();
+
+		ob_start();
+		$tester->parser->output(&$stream);
+		$output = ob_get_clean();
+
+		$this->assertNotEmpty($output);
+
+		return $tester;
+	}
+
+	/**
+	 * @depends testConsoleStream
 	 */
 	public function testHTMLStream($tester) {
 		$html_file = 'test.html';
